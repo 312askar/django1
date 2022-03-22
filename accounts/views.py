@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from .forms import UserRegisterForm
 # Create your views here.
 
 from accounts.forms import LoginForm
@@ -34,3 +34,16 @@ def sign_in(request):
 def logout_user(request):
     logout(request)
     return HttpResponse('Вы успешно вышли')
+
+
+def register(request):
+    if request.method == 'POST':
+        user_form = UserRegisterForm(request.POST)
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            new_user.set_password(user_form.cleaned_data['password'])
+            new_user.save()
+            return render(request, 'register_done.html', {'new_user':new_user})
+    else:
+        user_form = UserRegisterForm()
+    return render(request, 'register.html', {'user_form': user_form})
