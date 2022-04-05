@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from datetime import datetime
 class Category(models.Model):
     name = models.CharField('Name', max_length=100)
     slug = models.SlugField(max_length=100)
@@ -33,10 +33,23 @@ class Post(models.Model):
         return self.title
 
 class Coment(models.Model):
-    name = models.CharField(verbose_name='Name', max_length=50)
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Автор',
+        related_name='comments',
+        null=True
+    )
     comment = models.TextField(verbose_name='comments')
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, null=True)
 
+    class Meta:
+        verbose_name = 'Коментарий'
+        verbose_name_plural = 'Коментарии'
+        ordering = ['-created']
 
+    def __str__(self):
+        return str(self.comment)[:50]
 
 

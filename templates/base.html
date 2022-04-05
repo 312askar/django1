@@ -30,40 +30,37 @@
   <body>
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="index.html">Vacation<span>Travel Agency</span></a>
+	      <a class="navbar-brand" href="index.html">Jailoo<span>Travel Agency</span></a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="oi oi-menu"></span> Menu
+	        <span class="oi oi-menu"></span> Меню
 	      </button>
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-	          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-	          <li class="nav-item"><a href="destination.html" class="nav-link">Destination</a></li>
-	          <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
-	          <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
-	          <li class="nav-item cta"><a href="#" class="nav-link">Book Now</a></li>
+	          <li class="nav-item active"><a href="{% url 'index' %}" class="nav-link">Главная</a></li>
+	          <li class="nav-item"><a href="#" class="nav-link">О нас</a></li>
+	          <li class="nav-item"><a href="{% url 'tour_list' %}" class="nav-link">Туры</a></li>
+	          <li class="nav-item"><a href="{%url 'post_list' %}" class="nav-link">Блог</a></li>
+	          <li class="nav-item">
+                  <div class="nav-link dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                        Категории
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          {% for category in categories %}
+                        <a class="dropdown-item" href="{% url 'category_posts' category.slug %}">{{category.name}}</a>
+                          {% endfor %}
+                      </div>
+                    </div>
+              </li>
+              <li class="nav-item"><a href="#" class="nav-link">Контакты</a></li>
+	          <li class="nav-item cta"><a href="#" class="nav-link">Бронируй сейчас</a></li>
 
 	        </ul>
 	      </div>
 	    </div>
 	  </nav>
     <!-- END nav -->
-
-    <div class="hero-wrap js-fullheight" style="background-image: url('https://avatars.mds.yandex.net/i?id=7db2b36667fe2d6c03faedc81bf10c5b-5655998-images-thumbs&ref=rim&n=33&w=343&h=150');" data-stellar-background-ratio="0.5">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
-          <div class="col-md-9 text text-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-          	<a href="https://vimeo.com/45830194" class="icon-video popup-vimeo d-flex align-items-center justify-content-center mb-4">
-          		<span class="ion-ios-play"></span>
-            </a>
-            <p class="caps" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Travel to the any corner of the world, without going around in circles</p>
-            <h1 data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Make Your Tour Amazing With Us</h1>
-          </div>
-        </div>
-      </div>
-    </div>
     <!-- END header -->
     {% block content %}
 
