@@ -1,7 +1,38 @@
 from django.contrib import admin
 
 # Register your models here.
-from tours.models import Tour, RegulatTour
+from .models import Tour, RegulatTour, TourBooking
+
+@admin.register(TourBooking)
+class TourBookingAdmin(admin.ModelAdmin):
+    list_display = [
+        'regular_tour',
+        'place_count',
+        'mobile',
+        'statuses',
+        'is_paid',
+        'created',
+        'updated'
+    ]
+    list_filter = [
+        'statuses',
+        'created',
+        'is_paid'
+    ]
+    list_editable = [
+        'statuses',
+        'is_paid'
+    ]
+    search_fields = [
+        'mobile',
+        'notice',
+        'user__first_name'
+    ]
+    readonly_fields = [
+        'mobile',
+        'notice',
+        'user',
+    ]
 
 @admin.register(Tour)
 class TourAdmin(admin.ModelAdmin):

@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 from .models import Post, Category, Coment
 from .forms import CommentForm
+from django.views.generic import FormView
+from .forms import PostCreateForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 def index(request):
     posts = Post.objects.all()
@@ -47,3 +50,15 @@ def get_post_detail(request, pk):
         }
     return render(request, 'post_detail.html', context=context)
 
+class PostCreateView(LoginRequiredMixin, FormView):
+    template_name = 'post_create.html'
+    form_class = PostCreateForm
+    success_url = '/'
+    login_url = 'sign_in'
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.author = self.request.user
+        instance.save()
+
+        return super().form_valid(form)

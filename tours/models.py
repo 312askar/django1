@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 # Create your models here.
 class Tour(models.Model):
@@ -47,8 +48,8 @@ class RegulatTour(models.Model):
         verbose_name_plural = 'Регулярные туры'
         ordering = ['-start']
 
-        def __str__(self):
-            return f"{self.tour.title} - {self.start}"
+    def __str__(self):
+        return f"{self.tour.title} - {self.start.date()}"
         
 
 class TourBooking(models.Model):
@@ -69,13 +70,13 @@ class TourBooking(models.Model):
     statuses = models.CharField('Статус', max_length=9, choices=BOOKING_STATUSES, default=STATUS_NEW)
     is_paid = models.BooleanField('Оплачено', default=False)
     notice = models.CharField('Примечание', max_length=255, null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True) #Создается только при создании
-    updated = models.DateTimeField(auto_now=True)   #Меняется при каждом обновлении
+    created = models.DateTimeField('Создан', auto_now_add=True) #Создается только при создании
+    updated = models.DateTimeField('Обновлен', auto_now=True)   #Меняется при каждом обновлении
 
     class Meta:
         verbose_name = 'Бронирование'
         verbose_name_plural = 'Бронирования'
         ordering = ['-created']
 
-        def __str__(self):
-            return f'Бронь №: {self.id}'
+    def __str__(self):
+        return f'Бронь №: {self.id}'
